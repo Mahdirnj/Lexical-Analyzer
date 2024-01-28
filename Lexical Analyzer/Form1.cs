@@ -316,11 +316,13 @@ namespace Lexical_Analyzer
                         break;
 
                     // Numbers
+                    // 48 to 57 represent 0-9 in ASCII code
                     case var number when 48 <= number[0] && number[0] <= 57:
                         Tokentype[j] = "Number";
                         break;
 
                     // Identifiers
+                    // 65-90 represent ASCII value of A-Z and 97-122 is a-z
                     case var identifier when Tokentype[j] == "":
                         if ((65 <= identifier[0] && identifier[0] <= 90) || (97 <= identifier[0] && identifier[0] <= 122))
                         {
@@ -337,32 +339,35 @@ namespace Lexical_Analyzer
             // int L : A variable to remember the starting block level when nested blocks occur.
             // int y : A variable to keep track of the number of nested blocks.
             int[] blockno = new int[10000];
+
+
             for (j = 1; j < m; j++)
             {
-                if (Token[j] == "{")
+                switch (Token[j])
                 {
-                    l++;
-                    y++;
-                    blockno[j] = l;
-                    L = l;
+                    case "{":
+                        l++;
+                        y++;
+                        blockno[j] = l;
+                        L = l;
+                        break;
 
-                }
+                    case "}":
+                        blockno[j] = l;
+                        l--;
+                        y--;
+                        if (y == 0)
+                        {
+                            l = L;
+                        }
+                        break;
 
-                if (Token[j] == "}")
-                {
-                    blockno[j] = l;
-                    l--;
-                    y--;
-                    if (y == 0)
-                    {
-                        l = L;
-                    }
-                }
-                else
-                {
-                    blockno[j] = l;
+                    default:
+                        blockno[j] = l;
+                        break;
                 }
             }
+
 
 
 
@@ -370,7 +375,6 @@ namespace Lexical_Analyzer
             {
                 if (Tokentype[j] != "")
                 {
-
                     dataGridView1.Rows.Add(Token[j], Tokentype[j], Row[j], Column[j], blockno[j]);
                 }
                 dataGridView1.ScrollBars = ScrollBars.Both;

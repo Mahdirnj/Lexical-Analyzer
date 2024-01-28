@@ -171,15 +171,11 @@ namespace Lexical_Analyzer
 
 
 
-            //In summary, this loop processes each token extracted from the code and classifies it into different types such as Keywords, Operators, Delimiters, Literals, Numbers, or Identifiers based on predefined conditions. 
-            //The classification information is then stored in the Tokentype array.
+            //In summary, this loop processes each token extracted from the code and classifies it into different types such as Keywords, Operators, Delimiters, Literals, Numbers, or Identifiers
+            //The classification information is then stored in the Tokentype array
 
             for (j = 1; j < m; j++)
             {
-                string token1 = Token[j]; // The full token string.
-                char token2 = token1[0]; // The first character of the token.
-                string token3 = Convert.ToString(token1[0]); // The first character converted to a string.
-
                 switch (Token[j])
                 {
                     // Keywords

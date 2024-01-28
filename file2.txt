@@ -1,0 +1,26 @@
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+void main()
+{
+	int n,m, k, count;
+	for (m = 000; m <= 1000; m++)
+	{
+		count = 0;
+		n = m;
+		while (n > 0)
+		{
+			k = n % 10;
+			if (k == 0 || k ==5)
+			{
+				count++;
+			}
+			n = n / 10;
+		}
+		if (count == 0)
+			cout << m << " ";
+	}
+	cin.get();
+	cin.ignore();
+}
+

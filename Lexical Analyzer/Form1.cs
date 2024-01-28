@@ -23,7 +23,7 @@ namespace Lexical_Analyzer
             string[] Tokentype = new string[10000];//A string used to temporarily store a token.
             int[] Row = new int[10000];
             int[] Column = new int[10000];
-            int i = 0; 
+            int i = 0;
             int J, j = 0, n, a = 1, g, m = 0, k = 1, G = 0;
             char[,] S1 = new char[10000, 10000]; //A 2D array used to store characters of the code file.
             string S2; // A string used to temporarily store a token.
@@ -51,23 +51,16 @@ namespace Lexical_Analyzer
             for (i = 0; i < CodeFile.Length; i++)
             {
                 J = 1; // It is used to keep track of the position in the new 2D array S3
-
-
-
                 for (j = 1; j <= CodeFile[i].Length; j++)
-                { 
+                {
                     if ((S1[i, j + 1] == ';' || S1[i, j + 1] == '(' || S1[i, j + 1] == ')' || S1[i, j + 1] == ',' || S1[i, j + 1] == '=' || S1[i, j + 1] == '[' || S1[i, j + 1] == ']'
                         || S1[i, j + 1] == '{' || S1[i, j + 1] == '}' || S1[i, j + 1] == '*' || S1[i, j + 1] == '/' || S1[i, j + 1] == '<' || S1[i, j + 1] == '+'
                        || S1[i, j + 1] == '>' || S1[i, j + 1] == '-' || S1[i, j + 1] == '|' || S1[i, j + 1] == '&' || S1[i, j + 1] == '!') && (S1[i, j] != ' ') && (S1[i, j + 1] != S1[i, j]))
 
                     {
-
-
-                       
-                            S3[i, J] = S1[i, j];
-                            S3[i, J + 1] = ' ';
-                            J = J + 2;
-                        
+                        S3[i, J] = S1[i, j];
+                        S3[i, J + 1] = ' ';
+                        J = J + 2;
                     }
                     else
                     {
@@ -90,15 +83,13 @@ namespace Lexical_Analyzer
                 for (j = 1; j <= Count[i]; j++)
                 {
                     if ((S3[i, j - 1] == ';' || S3[i, j - 1] == '(' || S3[i, j - 1] == ')' || S3[i, j - 1] == ',' || S3[i, j - 1] == '=' || S3[i, j - 1] == '[' || S3[i, j - 1] == ']'
-                     || S3[i, j - 1] == '{' || S3[i, j - 1] == '}' || S3[i, j - 1] == '*' || S3[i, j - 1] == '/' || S3[i, j - 1] == '<' || S3[i, j - 1] == '+' 
+                     || S3[i, j - 1] == '{' || S3[i, j - 1] == '}' || S3[i, j - 1] == '*' || S3[i, j - 1] == '/' || S3[i, j - 1] == '<' || S3[i, j - 1] == '+'
                      || S3[i, j - 1] == '>' || S3[i, j - 1] == '-' || S3[i, j - 1] == '|' || S3[i, j - 1] == '&' || S3[i, j - 1] == '!') && (S3[i, j] != ' ') && (S3[i, j - 1] != S3[i, j]))
                     {
 
-                       
-                            S4[i, J + 1] = S3[i, j];
-                            S4[i, J] = ' ';
-                            J = J + 2;
-                        
+                        S4[i, J + 1] = S3[i, j];
+                        S4[i, J] = ' ';
+                        J = J + 2;
                     }
                     else
                     {
@@ -136,53 +127,50 @@ namespace Lexical_Analyzer
                         }
                         G = g;
                         g = j + 1;
+
                         if (S2 != "")
                         {
                             Token[a] = S2;
                             Tokentype[a] = "";
                             Row[a] = i + 1;
-                            if (G == 1)
+
+                            switch (G)
                             {
-                                for (int z = G - 1; z < G + 2; z++)
-                                {
-                                    if (Column[a] == 0)
+                                case 1:
+                                    for (int z = G - 1; z < G + 2; z++)
                                     {
-                                        if (S2[0] == S1[i, z])
+                                        if (Column[a] == 0 && S2[0] == S1[i, z])
                                         {
                                             k = z;
                                             Column[a] = k;
                                         }
                                     }
+                                    break;
 
-                                }
-                            }
-                            if (G != 1)
-                            {
-                                if (G == 2)
-                                {
-                                    G = G + 1;
-                                }
-                                for (int z = G - 3; z <= G + 2; z++)
-                                {
-                                    if (Column[a] == 0)
+                                default:
+                                    if (G == 2)
                                     {
-                                        if (S2[0] == S1[i, z])
+                                        G = G + 1;
+                                    }
+
+                                    for (int z = G - 3; z <= G + 2; z++)
+                                    {
+                                        if (Column[a] == 0 && S2[0] == S1[i, z])
                                         {
                                             k = z;
                                             Column[a] = k;
                                         }
                                     }
-
-                                }
+                                    break;
                             }
+
                             a++;
                         }
-
                     }
-
                 }
                 m = a;
             }
+
 
             //In summary, this loop processes each token extracted from the code and classifies it into different types such as Keywords, Operators, Delimiters, Literals, Numbers, or Identifiers based on predefined conditions. 
             //The classification information is then stored in the Tokentype array.
@@ -227,7 +215,7 @@ namespace Lexical_Analyzer
                 }
                 if (48 <= token2 && token2 <= 57)
                 {
- 
+
                     Tokentype[j] = "Number";
                 }
                 if (Tokentype[j] == "")
@@ -285,5 +273,5 @@ namespace Lexical_Analyzer
             }
         }
     }
-    }
+}
 

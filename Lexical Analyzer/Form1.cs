@@ -106,8 +106,6 @@ namespace Lexical_Analyzer
                 S4[i, Count[i]] = ' ';
             }
 
-            //
-
             for (i = 0; i < CodeFile.Length; i++)
             {
                 g = 1;  //It is used to keep track of the position in the modified line stored in S4.
@@ -172,60 +170,166 @@ namespace Lexical_Analyzer
             }
 
 
+
             //In summary, this loop processes each token extracted from the code and classifies it into different types such as Keywords, Operators, Delimiters, Literals, Numbers, or Identifiers based on predefined conditions. 
             //The classification information is then stored in the Tokentype array.
 
             for (j = 1; j < m; j++)
             {
-                string token1 = Token[j]; //The full token string.
+                string token1 = Token[j]; // The full token string.
                 char token2 = token1[0]; // The first character of the token.
-                string token3 = Convert.ToString(token1[0]); //The first character converted to a string.
-                if (Token[j] == "alignas" || Token[j] == "alignof" || Token[j] == "and" || Token[j] == "and_eq" || Token[j] == "asm" || Token[j] == "auto" || Token[j] == "bitand"
-                    || Token[j] == "bitor" || Token[j] == "bool" || Token[j] == "break" || Token[j] == "case" || Token[j] == "catch" || Token[j] == "char" || Token[j] == "char16_t"
-                    || Token[j] == "char32_t" || Token[j] == "class" || Token[j] == "compl" || Token[j] == "const" || Token[j] == "constexpr" || Token[j] == "const_cast"
-                    || Token[j] == "continue" || Token[j] == "decltype" || Token[j] == "default" || Token[j] == "delete" || Token[j] == "do" || Token[j] == "double"
-                    || Token[j] == "dynamic_cast" || Token[j] == "else" || Token[j] == "enum" || Token[j] == "export" || Token[j] == "extern" || Token[j] == "false"
-                    || Token[j] == "float" || Token[j] == "for" || Token[j] == "friend" || Token[j] == "goto" || Token[j] == "if" || Token[j] == "inline" || Token[j] == "int"
-                    || Token[j] == "long" || Token[j] == "mutable" || Token[j] == "namespace" || Token[j] == "new" || Token[j] == "noexcept" || Token[j] == "not"
-                    || Token[j] == "not_eq" || Token[j] == "nullptr" || Token[j] == "operator" || Token[j] == "or" || Token[j] == "or_eq" || Token[j] == "private"
-                    || Token[j] == "public" || Token[j] == "register" || Token[j] == "reinterpret" || Token[j] == "return" || Token[j] == "short"
-                    || Token[j] == "signed" || Token[j] == "sizeof" || Token[j] == "static" || Token[j] == "static_assert" || Token[j] == "static_cast" || Token[j] == "struct"
-                    || Token[j] == "switch" || Token[j] == "template" || Token[j] == "this" || Token[j] == "thread_local" || Token[j] == "throw" || Token[j] == "true"
-                    || Token[j] == "try" || Token[j] == "typedef" || Token[j] == "using" || Token[j] == "void" || Token[j] == "while" || Token[j] == "string" || Token[j] == "cout"
-                    || Token[j] == "cin" || Token[j] == "main" || Token[j] == "#include" || Token[j] == "iostream.h" || Token[j] == "conio.h")
-                {
-                    Tokentype[j] = "Keyword";
-                }
-                if (Token[j] == "+" || Token[j] == "-" || Token[j] == "/" || Token[j] == "*" || Token[j] == "%" || Token[j] == ">" || Token[j] == "<" || Token[j] == "="
-                    || Token[j] == "!" || Token[j] == "|" || Token[j] == "&" || Token[j] == "^" || Token[j] == "~" || Token[j] == "("
-                    || Token[j] == ")" || Token[j] == "[" || Token[j] == "]" || Token[j] == "{" || Token[j] == "<<" || Token[j] == ">>" || Token[j] == "++"
-                    || Token[j] == "}" || Token[j] == "--" || Token[j] == "==" || Token[j] == "&&" || Token[j] == "||")
-                {
-                    Tokentype[j] = "Operator";
-                }
-                if (Token[j] == "," || Token[j] == ":" || Token[j] == ";")
-                {
-                    Tokentype[j] = "Delimiter";
-                }
+                string token3 = Convert.ToString(token1[0]); // The first character converted to a string.
 
-                //Literals: Checks if the token starts with a double quote (") or single quote (').
-                if (token2 == '"' || token3 == "'")
+                switch (Token[j])
                 {
-                    Tokentype[j] = "Literal";
-                }
-                if (48 <= token2 && token2 <= 57)
-                {
+                    // Keywords
+                    case "alignas":
+                    case "alignof":
+                    case "and":
+                    case "and_eq":
+                    case "asm":
+                    case "auto":
+                    case "bitand":
+                    case "bitor":
+                    case "bool":
+                    case "break":
+                    case "case":
+                    case "catch":
+                    case "char":
+                    case "char16_t":
+                    case "char32_t":
+                    case "class":
+                    case "compl":
+                    case "const":
+                    case "constexpr":
+                    case "const_cast":
+                    case "continue":
+                    case "decltype":
+                    case "default":
+                    case "delete":
+                    case "do":
+                    case "double":
+                    case "dynamic_cast":
+                    case "else":
+                    case "enum":
+                    case "export":
+                    case "extern":
+                    case "false":
+                    case "float":
+                    case "for":
+                    case "friend":
+                    case "goto":
+                    case "if":
+                    case "inline":
+                    case "int":
+                    case "long":
+                    case "mutable":
+                    case "namespace":
+                    case "new":
+                    case "noexcept":
+                    case "not":
+                    case "not_eq":
+                    case "nullptr":
+                    case "operator":
+                    case "or":
+                    case "or_eq":
+                    case "private":
+                    case "public":
+                    case "register":
+                    case "reinterpret_cast":
+                    case "return":
+                    case "short":
+                    case "signed":
+                    case "sizeof":
+                    case "static":
+                    case "static_assert":
+                    case "static_cast":
+                    case "struct":
+                    case "switch":
+                    case "template":
+                    case "this":
+                    case "thread_local":
+                    case "throw":
+                    case "true":
+                    case "try":
+                    case "typedef":
+                    case "typeid":
+                    case "typename":
+                    case "union":
+                    case "unsigned":
+                    case "using":
+                    case "virtual":
+                    case "void":
+                    case "volatile":
+                    case "wchar_t":
+                    case "while":
+                    case "cout":
+                    case "cin":
+                    case "main":
+                    case "#include":
+                    case "iostream.h":
+                    case "conio.h":
 
-                    Tokentype[j] = "Number";
-                }
-                if (Tokentype[j] == "")
-                {
-                    if ((65 <= token2 && token2 <= 90) || (97 <= token2 && token2 <= 122))
-                    {
-                        Tokentype[j] = "Identifier";
-                    }
+                        Tokentype[j] = "Keyword";
+                        break;
+
+                    // Operators
+                    case "+":
+                    case "-":
+                    case "/":
+                    case "*":
+                    case "%":
+                    case ">":
+                    case "<":
+                    case "=":
+                    case "!":
+                    case "|":
+                    case "&":
+                    case "^":
+                    case "~":
+                    case "(":
+                    case ")":
+                    case "[":
+                    case "]":
+                    case "{":
+                    case "}":
+                    case "<<":
+                    case ">>":
+                    case "++":
+                    case "--":
+                    case "==":
+                    case "&&":
+                    case "||":
+                        Tokentype[j] = "Operator";
+                        break;
+
+                    // Delimiters
+                    case ",":
+                    case ":":
+                    case ";":
+                        Tokentype[j] = "Delimiter";
+                        break;
+
+                    // Literals
+                    case var literal when literal.StartsWith("\"") || literal.StartsWith("'"):
+                        Tokentype[j] = "Literal";
+                        break;
+
+                    // Numbers
+                    case var number when 48 <= number[0] && number[0] <= 57:
+                        Tokentype[j] = "Number";
+                        break;
+
+                    // Identifiers
+                    case var identifier when Tokentype[j] == "":
+                        if ((65 <= identifier[0] && identifier[0] <= 90) || (97 <= identifier[0] && identifier[0] <= 122))
+                        {
+                            Tokentype[j] = "Identifier";
+                        }
+                        break;
                 }
             }
+
 
 
             int l = 0, L = 0, y = 0;

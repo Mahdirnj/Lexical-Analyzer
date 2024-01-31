@@ -19,22 +19,22 @@ namespace Lexical_Analyzer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string[] Token = new string[10000]; //A 2D array used to store characters of the code file.
+            string[] Token = new string[10000];
             string[] Tokentype = new string[10000];//A string used to temporarily store a token.
             int[] Row = new int[10000];
             int[] Column = new int[10000];
             int i = 0;
             int J, j = 0, n, a = 1, g, m = 0, k = 1, G = 0;
-            char[,] S1 = new char[10000, 10000]; //A 2D array used to store characters of the code file.
-            string S2; // A string used to temporarily store a token.
-            string[] CodeFile = System.IO.File.ReadAllLines("F:\\file2.txt"); //An array containing lines of code read from a file.
-            char[,] S3 = new char[10000, 10000]; //A 2D array used to store characters after the first tokenization phase.
-            char[,] S4 = new char[10000, 10000]; //A 2D array used to store characters after the second tokenization phase.
-            int[] Count = new int[10000]; //An array to store the count of characters in each line after tokenization.
+            char[,] S1 = new char[10000, 10000]; //Baraye save code file 
+            string S2; // save token movagat
+            string[] CodeFile = System.IO.File.ReadAllLines("F:\\file2.txt"); //Daraye code haye file
+            char[,] S3 = new char[10000, 10000]; //Baraye bade faze 1 token sazi
+            char[,] S4 = new char[10000, 10000]; //Baraye bade faze 2 token sazi
+            int[] Count = new int[10000]; //Tedad char baade token saszi
 
 
             // In summary, this first for loop is responsible for converting each line of code into a 2D array (S1). 
-            //Each character of the code is placed in this array so that the code can be processed character by character in the subsequent parts of the program.
+          
             for (i = 0; i < CodeFile.Length; i++)
             {
                 string CodeLines = CodeFile[i];
@@ -50,7 +50,7 @@ namespace Lexical_Analyzer
 
             for (i = 0; i < CodeFile.Length; i++)
             {
-                J = 1; // It is used to keep track of the position in the new 2D array S3
+                J = 1; //  keep track of the position S3
                 for (j = 1; j <= CodeFile[i].Length; j++)
                 {
                     if ((S1[i, j + 1] == ';' || S1[i, j + 1] == '(' || S1[i, j + 1] == ')' || S1[i, j + 1] == ',' || S1[i, j + 1] == '=' || S1[i, j + 1] == '[' || S1[i, j + 1] == ']'
@@ -69,12 +69,8 @@ namespace Lexical_Analyzer
                     }
 
                 }
-                Count[i] = J; //After processing a line, it stores the count of characters in Count[i]. This count represents the number of characters in the modified line stored in S3.
+                Count[i] = J; //count of characters 
             }
-
-
-            // In summary, the third for loop refines the modified line from S3, ensuring that specific characters are separated by spaces for better analysis. 
-            //It creates a new representation of the code in the array S4 with spaces added before certain characters.
 
 
             for (i = 0; i < CodeFile.Length; i++)
@@ -108,9 +104,8 @@ namespace Lexical_Analyzer
 
             for (i = 0; i < CodeFile.Length; i++)
             {
-                g = 1;  //It is used to keep track of the position in the modified line stored in S4.
+                g = 1;  // keep track of the position  in S4.
 
-                //In summary, this loop processes each character in the modified line stored in S4, extracts tokens, and stores information about each token in arrays.
                 for (j = 1; j <= Count[i]; j++)
                 {
                     if (S4[i, j] == ' ')
@@ -170,9 +165,6 @@ namespace Lexical_Analyzer
             }
 
 
-
-            //In summary, this loop processes each token extracted from the code and classifies it into different types such as Keywords, Operators, Delimiters, Literals, Numbers, or Identifiers
-            //The classification information is then stored in the Tokentype array
 
             for (j = 1; j < m; j++)
             {
@@ -312,7 +304,7 @@ namespace Lexical_Analyzer
                         break;
 
                     // Numbers
-                    // 48 to 57 represent 0-9 in ASCII code
+                    // 48 to 57 represent 0-9 in ASCII 
                     case var number when 48 <= number[0] && number[0] <= 57:
                         Tokentype[j] = "Number";
                         break;
@@ -330,10 +322,8 @@ namespace Lexical_Analyzer
 
 
 
-            int l = 0, L = 0, y = 0;
-            // int l : A variable to keep track of the current block level (incremented with each opening curly brace).
-            // int L : A variable to remember the starting block level when nested blocks occur.
-            // int y : A variable to keep track of the number of nested blocks.
+            int Block_level = 0, Starting_block_level = 0, y = 0;
+            // int y :  keep track of the number of nested blocks.
             int[] blockno = new int[10000];
 
 
@@ -342,24 +332,24 @@ namespace Lexical_Analyzer
                 switch (Token[j])
                 {
                     case "{":
-                        l++;
+                        Block_level++;
                         y++;
-                        blockno[j] = l;
-                        L = l;
+                        blockno[j] = Block_level;
+                        Starting_block_level = Block_level;
                         break;
 
                     case "}":
-                        blockno[j] = l;
-                        l--;
+                        blockno[j] = Block_level;
+                        Block_level--;
                         y--;
                         if (y == 0)
                         {
-                            l = L;
+                            Block_level = Starting_block_level;
                         }
                         break;
 
                     default:
-                        blockno[j] = l;
+                        blockno[j] = Block_level;
                         break;
                 }
             }
